@@ -28,6 +28,12 @@ echo Jars written to %ARTIFACTS%
 
 if /i "%1"=="notest" goto :eof
 
+echo === Running own tests (not packaged into the jars)
+mkdir %OUT%\test
+call :sources logic\test %OUT%\test-sources.txt
+javac --release 25 -d %OUT%\test -cp "%API%;%OUT%\model;%OUT%\logic" @%OUT%\test-sources.txt || goto :error
+java -cp "%API%;%OUT%\model;%OUT%\logic;%OUT%\test" patmal.workshops.logic.impl.WorkshopSystemImplTest || goto :error
+
 echo === Running tester
 java -cp "workshop-tester.jar;%API%;%ARTIFACTS%\workshops-model-impl.jar;%ARTIFACTS%\workshops-logic-impl.jar" patmal.workshops.main.Main
 exit /b %errorlevel%
