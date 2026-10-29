@@ -1,0 +1,5 @@
+# build output (the jars that get submitted live in artifacts/)
+out/
+*.class
+.idea/workspace.xml
+.idea/shelf/
