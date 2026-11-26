@@ -185,6 +185,24 @@ class WorkshopSystemImplTest {
     }
 
     @Test
+    @DisplayName("students of an instructor follow the creation order of the workshops")
+    void studentsOfInstructorInCreationOrder() {
+        Instructor i1 = system.createInstructor("i1", "I1", "i1@example.com");
+        Workshop first = system.createWorkshop("A", "a");
+        Workshop second = system.createWorkshop("B", "b");
+        system.createStudent("s1", "S1", "s1@example.com");
+        system.createStudent("s2", "S2", "s2@example.com");
+        system.createTeam("T1", first, List.of("s1"));
+        system.createTeam("T2", second, List.of("s2"));
+
+        // Assigned in the opposite order of creation.
+        system.associateWorkshopWithInstructor(i1, second);
+        system.associateWorkshopWithInstructor(i1, first);
+
+        assertEquals(List.of("s1", "s2"), ids(system.getStudentsOfInstructor("i1")), "creation order");
+    }
+
+    @Test
     @DisplayName("objects from another system are rejected")
     void foreignObjectsRejected() {
         WorkshopSystemImpl other = new WorkshopSystemImpl();

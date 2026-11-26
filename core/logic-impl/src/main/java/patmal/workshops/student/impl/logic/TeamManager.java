@@ -91,15 +91,20 @@ class TeamManager {
         return id == null ? null : teams.get(id);
     }
 
-    /** Returns an empty list for an unknown instructor id. */
+    /**
+     * Returns an empty list for an unknown instructor id. The workshops are visited in creation
+     * order (not in the order they were assigned to the instructor), like everywhere else.
+     */
     List<Student> getStudentsOfInstructor(String instructorId) {
         Instructor instructor = instructors.get(instructorId);
         if (instructor == null) {
             return new ArrayList<>();
         }
         Set<Student> result = new LinkedHashSet<>();
-        for (Workshop workshop : instructor.getWorkshops()) {
-            result.addAll(getStudentsOfWorkshop(workshop.getId()));
+        for (Workshop workshop : workshops.getAll()) {
+            if (instructor.equals(workshop.getInstructor())) {
+                result.addAll(getStudentsOfWorkshop(workshop.getId()));
+            }
         }
         return new ArrayList<>(result);
     }
