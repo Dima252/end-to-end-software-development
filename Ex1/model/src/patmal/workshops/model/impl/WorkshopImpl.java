@@ -1,5 +1,7 @@
 package patmal.workshops.model.impl;
 
+import java.util.Objects;
+
 import patmal.workshops.api.model.Instructor;
 import patmal.workshops.api.model.Workshop;
 
@@ -42,7 +44,7 @@ public class WorkshopImpl implements Workshop {
      * another instructor, it is removed from that instructor's list.
      */
     public void setInstructor(InstructorImpl newInstructor) {
-        if (instructor == newInstructor) {
+        if (Objects.equals(instructor, newInstructor)) {
             return;
         }
         if (instructor != null) {
@@ -52,6 +54,30 @@ public class WorkshopImpl implements Workshop {
         if (newInstructor != null) {
             newInstructor.addWorkshop(this);
         }
+    }
+
+    /**
+     * Two workshops are equal when they have the same id, name and description. The instructor is
+     * left out on purpose: it can change, and comparing it would recurse into the instructor's
+     * workshops (a cycle).
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        WorkshopImpl other = (WorkshopImpl) o;
+        return Objects.equals(id, other.id)
+                && Objects.equals(name, other.name)
+                && Objects.equals(description, other.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description);
     }
 
     @Override

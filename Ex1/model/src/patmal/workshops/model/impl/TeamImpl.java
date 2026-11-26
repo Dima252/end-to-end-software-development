@@ -2,6 +2,7 @@ package patmal.workshops.model.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import patmal.workshops.api.model.Student;
 import patmal.workshops.api.model.Team;
@@ -56,6 +57,29 @@ public class TeamImpl implements Team {
     /** Internal access to the members, used to derive the team mates of a student. */
     List<StudentImpl> members() {
         return students;
+    }
+
+    /**
+     * Two teams are equal when they have the same id, name and workshop. The student list is left
+     * out on purpose: it changes, and comparing students would lead back to their team (a cycle).
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        TeamImpl other = (TeamImpl) o;
+        return Objects.equals(id, other.id)
+                && Objects.equals(name, other.name)
+                && Objects.equals(workshop, other.workshop);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, workshop);
     }
 
     @Override

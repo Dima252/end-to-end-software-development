@@ -47,7 +47,7 @@ public class StudentImpl extends PersonImpl implements Student {
         List<Student> mates = new ArrayList<>();
         if (team != null) {
             for (StudentImpl member : team.members()) {
-                if (member != this) {
+                if (!member.equals(this)) {
                     mates.add(member);
                 }
             }

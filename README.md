@@ -39,10 +39,11 @@ Current result: **RESULT: ALL OK** (105/105 tester checks, 12/12 own tests).
 
 ### Design notes
 
-- Data is kept in insertion-ordered maps keyed by id. Workshop and team ids are sequential from 1.
+- Data is kept in hash maps keyed by id. Workshop and team ids are sequential from 1.
 - A student stores only its team. Team name, instructor and team mates are derived from it, so they stay consistent.
 - Both sides of every relation are updated together (workshop ↔ instructor, team ↔ student).
 - `createTeam` validates all members before changing anything, so a rejected call changes no data and uses no id.
 - Invalid operations throw `IllegalArgumentException`.
 - Unknown ids: `getX(id)` returns `null` and `getStudentsOfX(id)` returns an empty list.
 - All returned lists are copies, never `null`, and contain no duplicates.
+- Model objects implement `equals`/`hashCode` by their own fields (not by reference). Relations that change or would form a cycle (a workshop's instructor, a team's students) are left out.

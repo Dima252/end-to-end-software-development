@@ -1,5 +1,7 @@
 package patmal.workshops.model.impl;
 
+import java.util.Objects;
+
 import patmal.workshops.api.model.Person;
 
 /**
@@ -30,6 +32,29 @@ public abstract class PersonImpl implements Person {
     @Override
     public String getEmail() {
         return email;
+    }
+
+    /**
+     * Two persons are equal when they are of the same kind (instructor or student) and have the
+     * same id, name and e-mail. All these fields are final, so the hash code never changes.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        PersonImpl other = (PersonImpl) o;
+        return Objects.equals(id, other.id)
+                && Objects.equals(name, other.name)
+                && Objects.equals(email, other.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, email);
     }
 
     @Override
