@@ -30,6 +30,19 @@
             <artifactId>model</artifactId>
         </dependency>
 
+        <!-- The managers log through the Log4j API only -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+        </dependency>
+
+        <!-- Log4j backend for the own tests only (the application's backend comes from app) -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Own tests (scope test, managed in the root) -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

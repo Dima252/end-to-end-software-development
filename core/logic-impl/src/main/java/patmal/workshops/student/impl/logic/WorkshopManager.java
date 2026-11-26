@@ -5,6 +5,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import patmal.workshops.api.model.Instructor;
 import patmal.workshops.api.model.Workshop;
 import patmal.workshops.student.impl.model.InstructorImpl;
@@ -12,6 +15,8 @@ import patmal.workshops.student.impl.model.WorkshopImpl;
 
 /** Creates, stores and looks up the workshops of one system, and links them to instructors. */
 class WorkshopManager {
+
+    private static final Logger LOG = LogManager.getLogger(WorkshopManager.class);
 
     private final InstructorManager instructors;
     private final Map<Integer, WorkshopImpl> workshops = new LinkedHashMap<>();
@@ -26,13 +31,20 @@ class WorkshopManager {
         WorkshopImpl workshop = new WorkshopImpl(nextWorkshopId, name, description);
         workshops.put(workshop.getId(), workshop);
         nextWorkshopId++;
+        LOG.info("Created workshop {} '{}'", workshop.getId(), name);
         return workshop;
     }
 
     void associate(Instructor instructor, Workshop workshop) {
-        InstructorImpl knownInstructor = instructors.resolve(instructor);
-        WorkshopImpl knownWorkshop = resolve(workshop);
-        knownWorkshop.setInstructor(knownInstructor);
+        try {
+            InstructorImpl knownInstructor = instructors.resolve(instructor);
+            WorkshopImpl knownWorkshop = resolve(workshop);
+            knownWorkshop.setInstructor(knownInstructor);
+            LOG.info("Assigned workshop {} to instructor '{}'", knownWorkshop.getId(), knownInstructor.getId());
+        } catch (IllegalArgumentException e) {
+            LOG.warn("Rejected associateWorkshopWithInstructor: {}", e.getMessage());
+            throw e;
+        }
     }
 
     List<Workshop> getAll() {

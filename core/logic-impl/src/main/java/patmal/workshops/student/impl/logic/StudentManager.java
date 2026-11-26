@@ -5,22 +5,33 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import patmal.workshops.api.model.Student;
 import patmal.workshops.student.impl.model.StudentImpl;
 
 /** Creates, stores and looks up the students of one system. */
 class StudentManager {
 
+    private static final Logger LOG = LogManager.getLogger(StudentManager.class);
+
     private final Map<String, StudentImpl> students = new LinkedHashMap<>();
 
     Student create(String id, String name, String email) {
-        Validation.requireNonNull(id, "Student id");
-        if (students.containsKey(id)) {
-            throw new IllegalArgumentException("A student with id '" + id + "' already exists");
+        try {
+            Validation.requireNonNull(id, "Student id");
+            if (students.containsKey(id)) {
+                throw new IllegalArgumentException("A student with id '" + id + "' already exists");
+            }
+            StudentImpl student = new StudentImpl(id, name, email);
+            students.put(id, student);
+            LOG.info("Created student '{}' ({})", id, name);
+            return student;
+        } catch (IllegalArgumentException e) {
+            LOG.warn("Rejected createStudent: {}", e.getMessage());
+            throw e;
         }
-        StudentImpl student = new StudentImpl(id, name, email);
-        students.put(id, student);
-        return student;
     }
 
     List<Student> getAll() {

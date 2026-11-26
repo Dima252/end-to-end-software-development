@@ -20,5 +20,11 @@
             <groupId>patmal.workshops.student.impl</groupId>
             <artifactId>logic-impl</artifactId>
         </dependency>
+
+        <!-- Log4j backend: nothing compiles against it, but it is packed into the uber jar -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
     </dependencies>
 </project>

@@ -28,7 +28,7 @@ The submission tag `EX2-Maven-Evolution` is placed only when we decide to submit
 | 3 | Port the EX1 code (packages `patmal.workshops.student.impl.*`, API 2.0, exports stubbed) | done (tester: flows 1–9 OK) |
 | 4 | Own tests as JUnit tests | done (12 JUnit tests; tester: flows 1–9 OK) |
 | 5 | Split `WorkshopSystem` into per-area managers | done (package-private managers; 12 tests and tester flows 1–9 OK) |
-| 6 | Logging with Log4j 2 | |
+| 6 | Logging with Log4j 2 | done (Log4j 2.26.1; info on creation, warn on rejection; 12 tests and tester flows 1–9 OK) |
 | 7 | E-mail validation (commons-validator) | |
 | 8 | JSON exports (Jackson) | |
 | 9 | `app`: `Main` and the uber jar `workshop-cli.jar` | |

@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import patmal.workshops.api.model.Instructor;
 import patmal.workshops.api.model.Student;
 import patmal.workshops.api.model.Team;
@@ -21,6 +24,8 @@ import patmal.workshops.student.impl.model.WorkshopImpl;
  * through teams (the students of a workshop or of an instructor).
  */
 class TeamManager {
+
+    private static final Logger LOG = LogManager.getLogger(TeamManager.class);
 
     private final InstructorManager instructors;
     private final WorkshopManager workshops;
@@ -36,38 +41,45 @@ class TeamManager {
     }
 
     Team create(String name, Workshop workshop, List<String> members) {
-        WorkshopImpl knownWorkshop = workshops.resolve(workshop);
-        Validation.requireNonNull(members, "Team members");
-        if (members.isEmpty()) {
-            throw new IllegalArgumentException("A team must have at least one student");
-        }
+        try {
+            WorkshopImpl knownWorkshop = workshops.resolve(workshop);
+            Validation.requireNonNull(members, "Team members");
+            if (members.isEmpty()) {
+                throw new IllegalArgumentException("A team must have at least one student");
+            }
 
-        // Validate all members before changing anything.
-        List<StudentImpl> teamStudents = new ArrayList<>();
-        Set<String> seen = new HashSet<>();
-        for (String studentId : members) {
-            if (!seen.add(studentId)) {
-                throw new IllegalArgumentException("Student '" + studentId + "' is listed more than once");
+            // Validate all members before changing anything.
+            List<StudentImpl> teamStudents = new ArrayList<>();
+            Set<String> seen = new HashSet<>();
+            for (String studentId : members) {
+                if (!seen.add(studentId)) {
+                    throw new IllegalArgumentException("Student '" + studentId + "' is listed more than once");
+                }
+                StudentImpl student = students.find(studentId);
+                if (student == null) {
+                    throw new IllegalArgumentException("Student '" + studentId + "' does not exist");
+                }
+                if (!student.isFree()) {
+                    throw new IllegalArgumentException(
+                            "Student '" + studentId + "' is already in team '" + student.getTeamName() + "'");
+                }
+                teamStudents.add(student);
             }
-            StudentImpl student = students.find(studentId);
-            if (student == null) {
-                throw new IllegalArgumentException("Student '" + studentId + "' does not exist");
-            }
-            if (!student.isFree()) {
-                throw new IllegalArgumentException(
-                        "Student '" + studentId + "' is already in team '" + student.getTeamName() + "'");
-            }
-            teamStudents.add(student);
-        }
 
-        // Everything is valid - only now consume an id and apply the change.
-        TeamImpl team = new TeamImpl(nextTeamId, name, knownWorkshop);
-        for (StudentImpl student : teamStudents) {
-            team.addStudent(student);
+            // Everything is valid - only now consume an id and apply the change.
+            TeamImpl team = new TeamImpl(nextTeamId, name, knownWorkshop);
+            for (StudentImpl student : teamStudents) {
+                team.addStudent(student);
+            }
+            teams.put(team.getId(), team);
+            nextTeamId++;
+            LOG.info("Created team {} '{}' in workshop {} with {} students",
+                    team.getId(), name, knownWorkshop.getId(), teamStudents.size());
+            return team;
+        } catch (IllegalArgumentException e) {
+            LOG.warn("Rejected createTeam: {}", e.getMessage());
+            throw e;
         }
-        teams.put(team.getId(), team);
-        nextTeamId++;
-        return team;
     }
 
     List<Team> getAll() {

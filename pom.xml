@@ -31,6 +31,7 @@
         <workshops.tester.version>2.0</workshops.tester.version>
 
         <!-- Library versions -->
+        <log4j.version>2.26.1</log4j.version>
         <junit.version>6.1.3</junit.version>
 
         <!-- Plugin versions -->
@@ -54,6 +55,19 @@
                 <groupId>patmal.workshops</groupId>
                 <artifactId>logic</artifactId>
                 <version>${workshops.api.version}</version>
+            </dependency>
+
+            <!-- Logging: the code uses log4j-api only; log4j-core is the backend, chosen by app -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
+                <scope>runtime</scope>
             </dependency>
 
             <!-- Course tester: needed by the build only, never packed into the uber jar -->
