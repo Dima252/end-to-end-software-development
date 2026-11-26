@@ -73,7 +73,7 @@ class TeamManager {
             }
             teams.put(team.getId(), team);
             nextTeamId++;
-            LOG.info("Created team {} '{}' in workshop {} with {} students",
+            LOG.info("Created team {} '{}' in workshop {} with {} student(s)",
                     team.getId(), name, knownWorkshop.getId(), teamStudents.size());
             return team;
         } catch (IllegalArgumentException e) {
