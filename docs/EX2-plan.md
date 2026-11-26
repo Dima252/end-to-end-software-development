@@ -5,7 +5,7 @@ The guide (`docs/EX2 - Maven Evolution.docx`) is the source of truth; this plan 
 ## Workflow per stage
 
 1. Present every architecture decision of the stage and wait for approval.
-2. Implement. The build must pass; from stage 3 on the tester must report `RESULT: ALL OK`.
+2. Implement. The build must pass, and from stage 3 on the tester runs before every commit. A tester flow that already passed must never fail again. `RESULT: ALL OK` is required from stage 8 on. Until then the flows of features not built yet are expected to fail: 10 (e-mail) until stage 7, 11–14 (JSON) until stage 8. Flow 15 (CSV) reports `SKIPPED` until stage 10.
 3. One commit per stage, pushed to `origin main` right away.
 
 The submission tag `EX2-Maven-Evolution` is placed only when we decide to submit (see the end).
@@ -25,7 +25,7 @@ The submission tag `EX2-Maven-Evolution` is placed only when we decide to submit
 | 0 | CLAUDE.md and project skills | done |
 | 1 | Maven Wrapper, API jars in `lib/`, install commands in README, `target/` ignored | done |
 | 2 | Multi-module skeleton (root, core, model-impl, logic-impl, app) | done |
-| 3 | Port the EX1 code (packages `patmal.workshops.student.impl.*`, API 2.0, exports stubbed) | |
+| 3 | Port the EX1 code (packages `patmal.workshops.student.impl.*`, API 2.0, exports stubbed) | done (tester: flows 1–9 OK) |
 | 4 | Own tests as JUnit tests | |
 | 5 | Split `WorkshopSystem` into per-area managers | |
 | 6 | Logging with Log4j 2 | |
