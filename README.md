@@ -39,7 +39,7 @@ Current result: **RESULT: ALL OK** (105/105 tester checks, 12/12 own tests).
 
 ### Design notes
 
-- Data is kept in hash maps keyed by id. Workshop and team ids are sequential from 1.
+- Data is kept in insertion-ordered maps keyed by id (`LinkedHashMap`), so every list comes back in creation order, as EX2 requires. Workshop and team ids are sequential from 1.
 - A student stores only its team. Team name, instructor and team mates are derived from it, so they stay consistent.
 - Both sides of every relation are updated together (workshop ↔ instructor, team ↔ student).
 - `createTeam` validates all members before changing anything, so a rejected call changes no data and uses no id.

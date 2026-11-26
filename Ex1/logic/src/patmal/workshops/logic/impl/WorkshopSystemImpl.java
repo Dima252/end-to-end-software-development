@@ -1,8 +1,8 @@
 package patmal.workshops.logic.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,7 @@ import patmal.workshops.model.impl.WorkshopImpl;
 /**
  * In-memory implementation of {@link WorkshopSystem}.
  *
- * <p>Data is kept in maps keyed by id.
+ * <p>Data is kept in maps keyed by id (insertion ordered, so lists come back in creation order).
  * Every create operation validates its whole request before changing anything, so a rejected
  * operation leaves the system, including the id counters, exactly as it was.
  *
@@ -34,10 +34,10 @@ import patmal.workshops.model.impl.WorkshopImpl;
  */
 public class WorkshopSystemImpl implements WorkshopSystem {
 
-    private final Map<String, InstructorImpl> instructors = new HashMap<>();
-    private final Map<String, StudentImpl> students = new HashMap<>();
-    private final Map<Integer, WorkshopImpl> workshops = new HashMap<>();
-    private final Map<Integer, TeamImpl> teams = new HashMap<>();
+    private final Map<String, InstructorImpl> instructors = new LinkedHashMap<>();
+    private final Map<String, StudentImpl> students = new LinkedHashMap<>();
+    private final Map<Integer, WorkshopImpl> workshops = new LinkedHashMap<>();
+    private final Map<Integer, TeamImpl> teams = new LinkedHashMap<>();
 
     private int nextWorkshopId = 1;
     private int nextTeamId = 1;
