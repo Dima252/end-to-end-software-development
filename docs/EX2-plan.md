@@ -35,7 +35,7 @@ The submission tag `EX2-Maven-Evolution` is placed only when we decide to submit
 | 10 | Bonus: CSV import (`Main` reads students from the CSV given as argument, else from the `students.csv` packed in the jar) | done (commons-csv 1.14.1, brings commons-io and commons-codec; package-private `CsvImporter`; 49 tests; tester flows 1–15 OK, `RESULT: ALL OK`) |
 | 11 | Bonus: tester in the `verify` phase (proven to fail on a deliberate break, never committed) | done (exec-maven-plugin 3.6.4, `exec:exec` with `${java.home}/bin/java` against the uber jar; tester jar located with `dependency:properties`; `-DskipTests` skips it; break "first workshop id 0" failed `verify` with `-Dmaven.test.failure.ignore=true`, reverted) |
 | 12 | Cleanup: remove `artifacts/`, finish README | done (`artifacts/` removed, ignored for the frozen `Ex1\build.cmd`; README: structure, libraries with transitive deps, design notes) |
-| 13 | **Pre-submission testing** (below) | |
+| 13 | **Pre-submission testing** (below) | done (steps 1–10 passed on a fresh clone with empty Maven home and repository, JDK 25 and 26, `mvnw.cmd` and `./mvnw`; the review found 3 minor issues, fixed in their own commits; 50 tests, tester `RESULT: ALL OK`) |
 
 ## Stage 13: pre-submission testing
 
