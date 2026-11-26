@@ -30,7 +30,7 @@ The course gives interface-only jars plus a tester. They are installed into `~/.
 | `patmal.workshops` | `workshop-tester` | `2.0` |
 
 - API packages: `patmal.workshops.api.model` (Person, Instructor, Student, Workshop, Team) and `patmal.workshops.api.logic` (WorkshopSystem).
-- The jars have no pom, so there are no transitive dependencies: anything that depends on `logic` must also declare `model`.
+- Install them with `-DgeneratePom=true`: each jar embeds a pom whose parent (`workshops-aggregator:1.0-SNAPSHOT`) does not exist, and without the flag `install:install-file` uses that pom and the build fails. The generated pom has no dependencies, so anything that depends on `logic` must also declare `model`.
 - Inspect a new API version with `javap -cp <jar> <class>` before coding against it.
 - The tester finds the implementation by scanning the classpath for a public, non-abstract class implementing `WorkshopSystem` with a public no-arg constructor. **Exactly one** such class may be on the classpath, or the uber jar, or it fails.
 

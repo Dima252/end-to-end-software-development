@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- logic-impl: implementation of WorkshopSystem -->
+    <parent>
+        <groupId>patmal.workshops.student.impl</groupId>
+        <artifactId>core</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>logic-impl</artifactId>
+
+    <name>Workshop Registration System - logic-impl</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>patmal.workshops.student.impl</groupId>
+            <artifactId>model-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>patmal.workshops</groupId>
+            <artifactId>logic</artifactId>
+        </dependency>
+        <!-- The logic jar has no pom: the model interfaces it uses must be declared here -->
+        <dependency>
+            <groupId>patmal.workshops</groupId>
+            <artifactId>model</artifactId>
+        </dependency>
+    </dependencies>
+</project>

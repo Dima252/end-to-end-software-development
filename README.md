@@ -16,20 +16,22 @@ The course API jars and the tester are not on Maven Central. They are in `lib/` 
 Windows (cmd or PowerShell):
 
 ```
-.\mvnw.cmd install:install-file "-Dfile=lib/model-2.0.jar" "-DgroupId=patmal.workshops" "-DartifactId=model" "-Dversion=2.0" "-Dpackaging=jar"
-.\mvnw.cmd install:install-file "-Dfile=lib/logic-2.0.jar" "-DgroupId=patmal.workshops" "-DartifactId=logic" "-Dversion=2.0" "-Dpackaging=jar"
-.\mvnw.cmd install:install-file "-Dfile=lib/workshop-tester-2.0.jar" "-DgroupId=patmal.workshops" "-DartifactId=workshop-tester" "-Dversion=2.0" "-Dpackaging=jar"
+.\mvnw.cmd install:install-file "-Dfile=lib/model-2.0.jar" "-DgroupId=patmal.workshops" "-DartifactId=model" "-Dversion=2.0" "-Dpackaging=jar" "-DgeneratePom=true"
+.\mvnw.cmd install:install-file "-Dfile=lib/logic-2.0.jar" "-DgroupId=patmal.workshops" "-DartifactId=logic" "-Dversion=2.0" "-Dpackaging=jar" "-DgeneratePom=true"
+.\mvnw.cmd install:install-file "-Dfile=lib/workshop-tester-2.0.jar" "-DgroupId=patmal.workshops" "-DartifactId=workshop-tester" "-Dversion=2.0" "-Dpackaging=jar" "-DgeneratePom=true"
 ```
 
 Linux / macOS:
 
 ```
-./mvnw install:install-file "-Dfile=lib/model-2.0.jar" "-DgroupId=patmal.workshops" "-DartifactId=model" "-Dversion=2.0" "-Dpackaging=jar"
-./mvnw install:install-file "-Dfile=lib/logic-2.0.jar" "-DgroupId=patmal.workshops" "-DartifactId=logic" "-Dversion=2.0" "-Dpackaging=jar"
-./mvnw install:install-file "-Dfile=lib/workshop-tester-2.0.jar" "-DgroupId=patmal.workshops" "-DartifactId=workshop-tester" "-Dversion=2.0" "-Dpackaging=jar"
+./mvnw install:install-file "-Dfile=lib/model-2.0.jar" "-DgroupId=patmal.workshops" "-DartifactId=model" "-Dversion=2.0" "-Dpackaging=jar" "-DgeneratePom=true"
+./mvnw install:install-file "-Dfile=lib/logic-2.0.jar" "-DgroupId=patmal.workshops" "-DartifactId=logic" "-Dversion=2.0" "-Dpackaging=jar" "-DgeneratePom=true"
+./mvnw install:install-file "-Dfile=lib/workshop-tester-2.0.jar" "-DgroupId=patmal.workshops" "-DartifactId=workshop-tester" "-Dversion=2.0" "-Dpackaging=jar" "-DgeneratePom=true"
 ```
 
-The jars have no pom, so Maven knows nothing about their dependencies: a module that uses `logic` must also declare `model`.
+`-DgeneratePom=true` matters: each jar carries its own `pom.xml` inside `META-INF/maven/`, and that pom refers to a parent (`patmal.workshops:workshops-aggregator:1.0-SNAPSHOT`) that is not available. Without the flag, `install:install-file` installs that embedded pom and the build fails with "Failed to read artifact descriptor for patmal.workshops:model:jar:2.0". With the flag, a minimal pom (coordinates only) is generated instead.
+
+The installed jars therefore have no dependencies, so Maven knows nothing about what they use: a module that uses `logic` must also declare `model`.
 
 ## EX1 – Workshop Registration (Vanilla Java)
 
