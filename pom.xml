@@ -30,6 +30,9 @@
         <workshops.api.version>2.0</workshops.api.version>
         <workshops.tester.version>2.0</workshops.tester.version>
 
+        <!-- Library versions -->
+        <junit.version>6.1.3</junit.version>
+
         <!-- Plugin versions -->
         <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
         <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
@@ -58,6 +61,14 @@
                 <groupId>patmal.workshops</groupId>
                 <artifactId>workshop-tester</artifactId>
                 <version>${workshops.tester.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Test libraries: never packed into the uber jar -->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
 

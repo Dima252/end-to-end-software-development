@@ -13,7 +13,7 @@ The submission tag `EX2-Maven-Evolution` is placed only when we decide to submit
 ## Decisions
 
 - Maven Wrapper (Maven is not installed on the development machine).
-- Jackson for JSON, commons-validator for e-mails, commons-csv for the CSV import, Log4j 2 for logging, JUnit 5 via its BOM.
+- Jackson for JSON, commons-validator for e-mails, commons-csv for the CSV import, Log4j 2 for logging, JUnit Jupiter 6 (`junit-jupiter`, declared directly in the root `dependencyManagement` with `test` scope, no BOM: guide §3.4 wants every library listed there).
 - Uber jar with maven-assembly-plugin (jar-with-dependencies, `appendAssemblyId=false`, `Multi-Release` manifest entry for Log4j), named `workshop-cli.jar`.
 - All bonuses: CSV import, tester in the `verify` phase (exec-maven-plugin), per-area managers in `logic-impl`.
 - Root pom at the repository root. The given jars are in `lib/` and are installed with `install:install-file -DgeneratePom=true` (see README). `Ex1/` stays frozen.
@@ -26,7 +26,7 @@ The submission tag `EX2-Maven-Evolution` is placed only when we decide to submit
 | 1 | Maven Wrapper, API jars in `lib/`, install commands in README, `target/` ignored | done |
 | 2 | Multi-module skeleton (root, core, model-impl, logic-impl, app) | done |
 | 3 | Port the EX1 code (packages `patmal.workshops.student.impl.*`, API 2.0, exports stubbed) | done (tester: flows 1–9 OK) |
-| 4 | Own tests as JUnit tests | |
+| 4 | Own tests as JUnit tests | done (12 JUnit tests; tester: flows 1–9 OK) |
 | 5 | Split `WorkshopSystem` into per-area managers | |
 | 6 | Logging with Log4j 2 | |
 | 7 | E-mail validation (commons-validator) | |
