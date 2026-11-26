@@ -42,6 +42,12 @@
             <artifactId>commons-validator</artifactId>
         </dependency>
 
+        <!-- The three JSON exports -->
+        <dependency>
+            <groupId>tools.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
         <!-- Log4j backend for the own tests only (the application's backend comes from app) -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

@@ -30,7 +30,7 @@ The submission tag `EX2-Maven-Evolution` is placed only when we decide to submit
 | 5 | Split `WorkshopSystem` into per-area managers | done (package-private managers; 12 tests and tester flows 1–9 OK) |
 | 6 | Logging with Log4j 2 | done (Log4j 2.26.1; info on creation, warn on rejection; 12 tests and tester flows 1–9 OK) |
 | 7 | E-mail validation (commons-validator) | done (commons-validator 1.11.0, transitive deps kept; 28 tests and tester flows 1–10 OK) |
-| 8 | JSON exports (Jackson) | |
+| 8 | JSON exports (Jackson) | done (Jackson 3.2.4, package-private `JsonExporter` with output records; 36 tests; tester flows 1–14 OK, `RESULT: ALL OK`) |
 | 9 | `app`: `Main` and the uber jar `workshop-cli.jar` | |
 | 10 | Bonus: CSV import (`Main` reads students from a CSV given as argument) | |
 | 11 | Bonus: tester in the `verify` phase (proven to fail on a deliberate break, never committed) | |

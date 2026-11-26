@@ -11,7 +11,8 @@ import patmal.workshops.api.model.Workshop;
 
 /**
  * In-memory implementation of {@link WorkshopSystem}. It is a thin facade: every call is
- * delegated to one of the per-area managers (instructors, workshops, students, teams).
+ * delegated to one of the per-area managers (instructors, workshops, students, teams) or to the
+ * JSON exporter.
  *
  * <p>Data is kept in maps keyed by id (insertion ordered, so lists come back in creation order).
  * Every create operation validates its whole request before changing anything, so a rejected
@@ -30,12 +31,14 @@ public class WorkshopSystemImpl implements WorkshopSystem {
     private final WorkshopManager workshops;
     private final StudentManager students;
     private final TeamManager teams;
+    private final JsonExporter json;
 
     public WorkshopSystemImpl() {
         instructors = new InstructorManager();
         workshops = new WorkshopManager(instructors);
         students = new StudentManager();
         teams = new TeamManager(instructors, workshops, students);
+        json = new JsonExporter(instructors, workshops, students, teams);
     }
 
     // ---------------------------------------------------------------- creating things
@@ -126,16 +129,16 @@ public class WorkshopSystemImpl implements WorkshopSystem {
 
     @Override
     public void exportInstructorsDataToJson(File targetFileName) {
-        throw new UnsupportedOperationException("JSON export is implemented in a later stage");
+        json.exportInstructors(targetFileName);
     }
 
     @Override
     public void exportStudentsDataToJson(File targetFileName) {
-        throw new UnsupportedOperationException("JSON export is implemented in a later stage");
+        json.exportStudents(targetFileName);
     }
 
     @Override
     public void exportTeamsDataToJson(File targetFileName) {
-        throw new UnsupportedOperationException("JSON export is implemented in a later stage");
+        json.exportTeams(targetFileName);
     }
 }
