@@ -34,6 +34,7 @@
         <log4j.version>2.26.1</log4j.version>
         <commons-validator.version>1.11.0</commons-validator.version>
         <jackson.version>3.2.4</jackson.version>
+        <commons-csv.version>1.14.1</commons-csv.version>
         <junit.version>6.1.3</junit.version>
 
         <!-- Plugin versions -->
@@ -86,6 +87,13 @@
                 <groupId>tools.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson.version}</version>
+            </dependency>
+
+            <!-- CSV import (brings commons-io and commons-codec) -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-csv</artifactId>
+                <version>${commons-csv.version}</version>
             </dependency>
 
             <!-- Course tester: needed by the build only, never packed into the uber jar -->

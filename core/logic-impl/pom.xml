@@ -48,6 +48,12 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
+        <!-- The CSV import of students -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+        </dependency>
+
         <!-- Log4j backend for the own tests only (the application's backend comes from app) -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

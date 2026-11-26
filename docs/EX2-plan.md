@@ -13,7 +13,7 @@ The submission tag `EX2-Maven-Evolution` is placed only when we decide to submit
 ## Decisions
 
 - Maven Wrapper (Maven is not installed on the development machine).
-- Jackson for JSON, commons-validator for e-mails, commons-csv for the CSV import, Log4j 2 for logging, JUnit Jupiter 6 (`junit-jupiter`, declared directly in the root `dependencyManagement` with `test` scope, no BOM: guide §3.4 wants every library listed there).
+- Jackson for JSON, commons-validator for e-mails, commons-csv for the CSV import (guide §6.1 wants the CSV as a program argument, §8.1 in the app's resources: `Main` does both, argument first), Log4j 2 for logging, JUnit Jupiter 6 (`junit-jupiter`, declared directly in the root `dependencyManagement` with `test` scope, no BOM: guide §3.4 wants every library listed there).
 - Uber jar with maven-assembly-plugin (jar-with-dependencies, `appendAssemblyId=false`, `Multi-Release` manifest entry for Log4j), named `workshop-cli.jar`.
 - All bonuses: CSV import, tester in the `verify` phase (exec-maven-plugin), per-area managers in `logic-impl`.
 - Root pom at the repository root. The given jars are in `lib/` and are installed with `install:install-file -DgeneratePom=true` (see README). `Ex1/` stays frozen.
@@ -32,7 +32,7 @@ The submission tag `EX2-Maven-Evolution` is placed only when we decide to submit
 | 7 | E-mail validation (commons-validator) | done (commons-validator 1.11.0, transitive deps kept; 28 tests and tester flows 1–10 OK) |
 | 8 | JSON exports (Jackson) | done (Jackson 3.2.4, package-private `JsonExporter` with output records; 36 tests; tester flows 1–14 OK, `RESULT: ALL OK`) |
 | 9 | `app`: `Main` and the uber jar `workshop-cli.jar` | done (maven-assembly-plugin 3.8.0, demo data in code; jar has one `WorkshopSystem` implementation, `log4j2.xml`, no test libraries; tester `RESULT: ALL OK`, flow 15 `SKIPPED`) |
-| 10 | Bonus: CSV import (`Main` reads students from a CSV given as argument) | |
+| 10 | Bonus: CSV import (`Main` reads students from the CSV given as argument, else from the `students.csv` packed in the jar) | done (commons-csv 1.14.1, brings commons-io and commons-codec; package-private `CsvImporter`; 49 tests; tester flows 1–15 OK, `RESULT: ALL OK`) |
 | 11 | Bonus: tester in the `verify` phase (proven to fail on a deliberate break, never committed) | |
 | 12 | Cleanup: remove `artifacts/`, finish README | |
 | 13 | **Pre-submission testing** (below) | |

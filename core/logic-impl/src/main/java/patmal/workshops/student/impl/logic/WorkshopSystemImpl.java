@@ -11,8 +11,8 @@ import patmal.workshops.api.model.Workshop;
 
 /**
  * In-memory implementation of {@link WorkshopSystem}. It is a thin facade: every call is
- * delegated to one of the per-area managers (instructors, workshops, students, teams) or to the
- * JSON exporter.
+ * delegated to one of the per-area managers (instructors, workshops, students, teams), to the
+ * JSON exporter or to the CSV importer.
  *
  * <p>Data is kept in maps keyed by id (insertion ordered, so lists come back in creation order).
  * Every create operation validates its whole request before changing anything, so a rejected
@@ -32,6 +32,7 @@ public class WorkshopSystemImpl implements WorkshopSystem {
     private final StudentManager students;
     private final TeamManager teams;
     private final JsonExporter json;
+    private final CsvImporter csv;
 
     public WorkshopSystemImpl() {
         instructors = new InstructorManager();
@@ -39,6 +40,7 @@ public class WorkshopSystemImpl implements WorkshopSystem {
         students = new StudentManager();
         teams = new TeamManager(instructors, workshops, students);
         json = new JsonExporter(instructors, workshops, students, teams);
+        csv = new CsvImporter(students);
     }
 
     // ---------------------------------------------------------------- creating things
@@ -140,5 +142,12 @@ public class WorkshopSystemImpl implements WorkshopSystem {
     @Override
     public void exportTeamsDataToJson(File targetFileName) {
         json.exportTeams(targetFileName);
+    }
+
+    // ---------------------------------------------------------------- import
+
+    @Override
+    public List<Student> importStudentDataFromFile(File source) {
+        return csv.importStudents(source);
     }
 }
