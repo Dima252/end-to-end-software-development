@@ -33,7 +33,7 @@ class CsvImporter {
     private static final List<String> HEADER = List.of("id", "name", "email");
 
     /** Excel writes this byte order mark at the start of a "CSV UTF-8" file. */
-    private static final String BYTE_ORDER_MARK = "﻿";
+    private static final String BYTE_ORDER_MARK = "\uFEFF";
 
     private final StudentManager students;
 

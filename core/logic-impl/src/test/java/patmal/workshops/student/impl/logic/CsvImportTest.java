@@ -86,7 +86,7 @@ class CsvImportTest {
     @DisplayName("Windows line breaks and a byte order mark are accepted")
     void windowsFile() throws IOException {
         List<Student> imported = system.importStudentDataFromFile(csv(
-                "﻿id,name,email\r\ns1,Alice,alice@students.edu\r\n"));
+                "\uFEFFid,name,email\r\ns1,Alice,alice@students.edu\r\n"));
 
         assertEquals(List.of("s1"), ids(imported));
     }
