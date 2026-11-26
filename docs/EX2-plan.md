@@ -33,7 +33,7 @@ The submission tag `EX2-Maven-Evolution` is placed only when we decide to submit
 | 8 | JSON exports (Jackson) | done (Jackson 3.2.4, package-private `JsonExporter` with output records; 36 tests; tester flows 1–14 OK, `RESULT: ALL OK`) |
 | 9 | `app`: `Main` and the uber jar `workshop-cli.jar` | done (maven-assembly-plugin 3.8.0, demo data in code; jar has one `WorkshopSystem` implementation, `log4j2.xml`, no test libraries; tester `RESULT: ALL OK`, flow 15 `SKIPPED`) |
 | 10 | Bonus: CSV import (`Main` reads students from the CSV given as argument, else from the `students.csv` packed in the jar) | done (commons-csv 1.14.1, brings commons-io and commons-codec; package-private `CsvImporter`; 49 tests; tester flows 1–15 OK, `RESULT: ALL OK`) |
-| 11 | Bonus: tester in the `verify` phase (proven to fail on a deliberate break, never committed) | |
+| 11 | Bonus: tester in the `verify` phase (proven to fail on a deliberate break, never committed) | done (exec-maven-plugin 3.6.4, `exec:exec` with `${java.home}/bin/java` against the uber jar; tester jar located with `dependency:properties`; `-DskipTests` skips it; break "first workshop id 0" failed `verify` with `-Dmaven.test.failure.ignore=true`, reverted) |
 | 12 | Cleanup: remove `artifacts/`, finish README | |
 | 13 | **Pre-submission testing** (below) | |
 
@@ -47,7 +47,7 @@ A dedicated phase on the final state of `main`, after all features and the clean
 4. **Application.** `java -jar workshop-cli.jar students.csv` runs, logs meaningful lines, and writes `instructors.json`, `students.json` and `teams.json` to the current folder. Check the files by hand against guide §5.1: fields, nesting, `null` relations, creation order, UTF-8.
 5. **Uber jar contents.** The manifest has `Main-Class`. The jar holds exactly one `WorkshopSystem` implementation, plus the Log4j configuration. It holds no tester or JUnit classes.
 6. **Build rules.** No `<version>` of a dependency or plugin in any child pom. Every version is a root property. `dependency:tree` and `dependency:analyze` show no surprises, and every transitive dependency can be explained.
-7. **Bonus check.** A deliberate break (first workshop id 0) makes `mvnw clean install` fail in `verify`. The break is reverted and never committed.
+7. **Bonus check.** A deliberate break (first workshop id 0) makes `mvnw clean install` fail. The own JUnit tests catch it first, so also run `mvnw clean install -Dmaven.test.failure.ignore=true`: it must fail in `app`'s `verify` phase because of the tester. The break is reverted and never committed.
 8. **Own tests.** All JUnit tests pass in the build.
 9. **Code review.** `java-code-review` skill on the whole implementation, within the API contract (`null` for unknown ids, `IllegalArgumentException` for invalid input, single-threaded).
 10. **Guide checklist.** Walk through the guide section by section and note the evidence for every requirement.

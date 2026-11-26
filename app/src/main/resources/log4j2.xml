@@ -7,8 +7,9 @@
         </Console>
     </Appenders>
     <Loggers>
-        <!-- Our own code: every creation (info) and every rejected operation (warn) -->
-        <Logger name="patmal.workshops.student.impl" level="info"/>
+        <!-- Our own code: every creation (info) and every rejected operation (warn).
+             The level can be changed with -Dworkshop.log.level=... (the build's tester run uses error). -->
+        <Logger name="patmal.workshops.student.impl" level="${sys:workshop.log.level:-info}"/>
         <!-- Everything else (libraries): only warnings and errors -->
         <Root level="warn">
             <AppenderRef ref="Console"/>

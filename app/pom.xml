@@ -15,6 +15,11 @@
 
     <name>Workshop Registration System - app</name>
 
+    <properties>
+        <!-- -DskipTests skips the course tester in verify as well -->
+        <skipTests>false</skipTests>
+    </properties>
+
     <dependencies>
         <!-- The implementation that Main instantiates -->
         <dependency>
@@ -42,6 +47,13 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
+        </dependency>
+
+        <!-- Course tester, run in verify against the uber jar. Scope test (from the root), so it is
+             never packed into workshop-cli.jar -->
+        <dependency>
+            <groupId>patmal.workshops</groupId>
+            <artifactId>workshop-tester</artifactId>
         </dependency>
     </dependencies>
 
@@ -78,6 +90,50 @@
                         <goals>
                             <goal>single</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Sets the property ${patmal.workshops:workshop-tester:jar} to the path of the tester jar
+                 in the local repository -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>locate-tester</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>properties</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Bonus: the build runs the course tester against the uber jar, exactly like guide
+                 section 7, in a separate JVM. A non-zero exit code of the tester fails the build. -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>run-tester</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipTests}</skip>
+                            <executable>${java.home}/bin/java</executable>
+                            <workingDirectory>${project.build.directory}</workingDirectory>
+                            <arguments>
+                                <!-- only errors from our own logging, so the tester's report stays readable -->
+                                <argument>-Dworkshop.log.level=error</argument>
+                                <argument>-cp</argument>
+                                <argument>${patmal.workshops:workshop-tester:jar}${path.separator}${project.build.directory}/${project.build.finalName}.jar</argument>
+                                <argument>patmal.workshops.main.Main</argument>
+                            </arguments>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

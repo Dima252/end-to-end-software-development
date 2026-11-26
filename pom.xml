@@ -45,6 +45,7 @@
         <maven-jar-plugin.version>3.5.1</maven-jar-plugin.version>
         <maven-install-plugin.version>3.2.0</maven-install-plugin.version>
         <maven-assembly-plugin.version>3.8.0</maven-assembly-plugin.version>
+        <exec-maven-plugin.version>3.6.4</exec-maven-plugin.version>
         <maven-dependency-plugin.version>3.11.0</maven-dependency-plugin.version>
     </properties>
 
@@ -165,8 +166,15 @@
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>${maven-assembly-plugin.version}</version>
                 </plugin>
-                <!-- Used from the command line (dependency:tree, dependency:analyze). Pinned because
-                     the default version Maven picks (3.7.0) cannot read Java 25 class files. -->
+                <!-- Runs the course tester against the uber jar in verify; activated in app -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>${exec-maven-plugin.version}</version>
+                </plugin>
+                <!-- Used from the command line (dependency:tree, dependency:analyze), and in app to find
+                     the tester jar. Pinned because the default version Maven picks (3.7.0) cannot read
+                     Java 25 class files. -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>

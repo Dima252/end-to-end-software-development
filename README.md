@@ -41,7 +41,9 @@ From the repository root (`./mvnw` on Linux / macOS):
 .\mvnw.cmd clean install
 ```
 
-This builds every module, runs the own JUnit tests and produces the uber jar `app/target/workshop-cli.jar` (the application with all its runtime dependencies). Run it with:
+This builds every module, runs the own JUnit tests and produces the uber jar `app/target/workshop-cli.jar` (the application with all its runtime dependencies). In the `verify` phase the build then runs the course tester against that jar (exec-maven-plugin, in a separate JVM), and a tester failure fails the build. `-DskipTests` skips both the own tests and the tester.
+
+Run the application with:
 
 ```
 java -jar app/target/workshop-cli.jar [students.csv]
@@ -49,11 +51,13 @@ java -jar app/target/workshop-cli.jar [students.csv]
 
 It fills a workshop system with demo data and writes `instructors.json`, `students.json` and `teams.json` to the current folder. The students are imported from the CSV file given as the argument; without an argument, the `students.csv` packed in the jar (`app/src/main/resources/students.csv`) is used. The file is UTF-8 with the header `id,name,email`; values may be quoted, e.g. `s2,"Friedman, Bob",bob@students.edu`. It must list at least 4 students: the first two form team Alpha, the third team Beta, and the rest stay free.
 
-Run the course tester against the uber jar (on Linux / macOS use `:` instead of `;`):
+Run the course tester by hand against the uber jar (on Linux / macOS use `:` instead of `;`):
 
 ```
 java -cp "lib/workshop-tester-2.0.jar;app/target/workshop-cli.jar" patmal.workshops.main.Main
 ```
+
+The log level of the own code is `info` by default and can be changed with `-Dworkshop.log.level=...` (for example `warn` or `error`); the build's tester run uses `error`, so that only the tester's report is shown.
 
 ## EX1 – Workshop Registration (Vanilla Java)
 
