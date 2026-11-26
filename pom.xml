@@ -42,6 +42,7 @@
         <maven-surefire-plugin.version>3.6.1</maven-surefire-plugin.version>
         <maven-jar-plugin.version>3.5.1</maven-jar-plugin.version>
         <maven-install-plugin.version>3.2.0</maven-install-plugin.version>
+        <maven-dependency-plugin.version>3.11.0</maven-dependency-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -140,6 +141,13 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-install-plugin</artifactId>
                     <version>${maven-install-plugin.version}</version>
+                </plugin>
+                <!-- Used from the command line (dependency:tree, dependency:analyze). Pinned because
+                     the default version Maven picks (3.7.0) cannot read Java 25 class files. -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven-dependency-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
