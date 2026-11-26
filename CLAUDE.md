@@ -4,7 +4,7 @@ Course repository for "End to End Software Development". One system, a workshop 
 
 | Exercise | Topic | Where |
 |---|---|---|
-| EX1 | Vanilla Java, plain IntelliJ modules | `Ex1/` (frozen, kept for history; tag `submission`) |
+| EX1 | Vanilla Java, plain IntelliJ modules | `Ex1/` (frozen, kept for history; tag `EX1-Vanilla`) |
 | EX2 | Maven multi-module, external libraries, uber jar | repo root (`pom.xml`, `core/`, `app/`) |
 | EX3+ | Spring, then Spring Boot (REST, Postman), then a database | same Maven project, evolved in place |
 
@@ -50,7 +50,7 @@ The course gives interface-only jars plus a tester. They are installed into `~/.
 - Build everything: `mvn clean install` (or `./mvnw` / `mvnw.cmd` if the wrapper is present; Maven is not on PATH on this machine)
 - Dependency tree: `mvn dependency:tree`
 - Run the tester against the uber jar (Windows uses `;`, Linux/macOS `:`):
-  `java -cp "workshop-tester-2.0.jar;app/target/workshop-cli.jar" patmal.workshops.main.Main`
+  `java -cp "lib/workshop-tester-2.0.jar;app/target/workshop-cli.jar" patmal.workshops.main.Main`
 - The expected result is `RESULT: ALL OK`. Run the tester before every commit that touches the implementation.
 - EX1 (legacy): `Ex1\build.cmd` compiles, runs own tests and the EX1 tester.
 

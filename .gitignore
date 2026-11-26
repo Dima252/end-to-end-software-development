@@ -1,5 +1,8 @@
-# build output (the jars that get submitted live in artifacts/)
+# build output
+target/
 out/
 *.class
+
+# IntelliJ per-user files
 .idea/workspace.xml
 .idea/shelf/

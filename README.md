@@ -1,5 +1,36 @@
 # End to End Software Development
 
+## EX2 – Maven Evolution
+
+The EX1 system as a Maven multi-module project, built from the repository root.
+
+### Requirements
+
+- JDK 25 or newer (`java` on the `PATH`, or `JAVA_HOME` set).
+- No Maven installation needed: the Maven Wrapper (`mvnw` / `mvnw.cmd`) downloads Maven 3.9.16 on its first run.
+
+### One-time setup: install the given API jars
+
+The course API jars and the tester are not on Maven Central. They are in `lib/` and have to be installed into the local Maven repository (`~/.m2`) once on every computer, from the repository root. The `-D` arguments are quoted so that the same lines also work in PowerShell.
+
+Windows (cmd or PowerShell):
+
+```
+.\mvnw.cmd install:install-file "-Dfile=lib/model-2.0.jar" "-DgroupId=patmal.workshops" "-DartifactId=model" "-Dversion=2.0" "-Dpackaging=jar"
+.\mvnw.cmd install:install-file "-Dfile=lib/logic-2.0.jar" "-DgroupId=patmal.workshops" "-DartifactId=logic" "-Dversion=2.0" "-Dpackaging=jar"
+.\mvnw.cmd install:install-file "-Dfile=lib/workshop-tester-2.0.jar" "-DgroupId=patmal.workshops" "-DartifactId=workshop-tester" "-Dversion=2.0" "-Dpackaging=jar"
+```
+
+Linux / macOS:
+
+```
+./mvnw install:install-file "-Dfile=lib/model-2.0.jar" "-DgroupId=patmal.workshops" "-DartifactId=model" "-Dversion=2.0" "-Dpackaging=jar"
+./mvnw install:install-file "-Dfile=lib/logic-2.0.jar" "-DgroupId=patmal.workshops" "-DartifactId=logic" "-Dversion=2.0" "-Dpackaging=jar"
+./mvnw install:install-file "-Dfile=lib/workshop-tester-2.0.jar" "-DgroupId=patmal.workshops" "-DartifactId=workshop-tester" "-Dversion=2.0" "-Dpackaging=jar"
+```
+
+The jars have no pom, so Maven knows nothing about their dependencies: a module that uses `logic` must also declare `model`.
+
 ## EX1 – Workshop Registration (Vanilla Java)
 
 An in-memory system that manages instructors, workshops, students and teams. It implements the given `model` and `logic` API interfaces in plain Java 25, with no Maven and no frameworks.

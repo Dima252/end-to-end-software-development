@@ -1,0 +1,4 @@
+# Maven Wrapper scripts: the shell script must keep LF, the Windows script CRLF
+/mvnw text eol=lf
+*.cmd text eol=crlf
+*.jar binary
