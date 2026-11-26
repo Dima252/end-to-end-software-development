@@ -21,6 +21,7 @@ class StudentManager {
     Student create(String id, String name, String email) {
         try {
             Validation.requireNonNull(id, "Student id");
+            Validation.requireValidEmail(email, "Student e-mail");
             if (students.containsKey(id)) {
                 throw new IllegalArgumentException("A student with id '" + id + "' already exists");
             }

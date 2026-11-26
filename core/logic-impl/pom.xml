@@ -36,6 +36,12 @@
             <artifactId>log4j-api</artifactId>
         </dependency>
 
+        <!-- E-mail validation in createStudent and createInstructor -->
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+        </dependency>
+
         <!-- Log4j backend for the own tests only (the application's backend comes from app) -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

@@ -11,6 +11,9 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import patmal.workshops.api.model.Instructor;
 import patmal.workshops.api.model.Person;
@@ -108,6 +111,32 @@ class WorkshopSystemImplTest {
 
         assertEquals("Student", system.getStudent("x1").getName(), "original student kept");
         assertEquals("Instructor", system.getInstructor("x1").getName(), "original instructor kept");
+    }
+
+    @ParameterizedTest(name = "student e-mail [{0}] is rejected")
+    @NullAndEmptySource
+    @ValueSource(strings = {"   ", "plainaddress", "user@", "@example.com", "a@b@example.com",
+            "user name@example.com"})
+    void invalidStudentEmailRejected(String email) {
+        assertThrows(IllegalArgumentException.class,
+                () -> system.createStudent("s1", "S1", email), "invalid e-mail");
+
+        assertEquals(0, system.getStudents().size(), "no student created");
+        assertEquals("s1@example.com", system.createStudent("s1", "S1", "s1@example.com").getEmail(),
+                "same id still usable with a valid e-mail");
+    }
+
+    @ParameterizedTest(name = "instructor e-mail [{0}] is rejected")
+    @NullAndEmptySource
+    @ValueSource(strings = {"   ", "plainaddress", "user@", "@example.com", "a@b@example.com",
+            "user name@example.com"})
+    void invalidInstructorEmailRejected(String email) {
+        assertThrows(IllegalArgumentException.class,
+                () -> system.createInstructor("i1", "I1", email), "invalid e-mail");
+
+        assertEquals(0, system.getInstructors().size(), "no instructor created");
+        assertEquals("i1@example.com", system.createInstructor("i1", "I1", "i1@example.com").getEmail(),
+                "same id still usable with a valid e-mail");
     }
 
     @Test

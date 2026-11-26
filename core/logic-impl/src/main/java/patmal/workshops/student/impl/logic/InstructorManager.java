@@ -21,6 +21,7 @@ class InstructorManager {
     Instructor create(String id, String name, String email) {
         try {
             Validation.requireNonNull(id, "Instructor id");
+            Validation.requireValidEmail(email, "Instructor e-mail");
             if (instructors.containsKey(id)) {
                 throw new IllegalArgumentException("An instructor with id '" + id + "' already exists");
             }
