@@ -6,3 +6,8 @@ out/
 # IntelliJ per-user files
 .idea/workspace.xml
 .idea/shelf/
+
+# files written by workshop-cli when it is run from the repository root
+/instructors.json
+/students.json
+/teams.json

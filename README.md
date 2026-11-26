@@ -33,6 +33,28 @@ Linux / macOS:
 
 The installed jars therefore have no dependencies, so Maven knows nothing about what they use: a module that uses `logic` must also declare `model`.
 
+### Build and run
+
+From the repository root (`./mvnw` on Linux / macOS):
+
+```
+.\mvnw.cmd clean install
+```
+
+This builds every module, runs the own JUnit tests and produces the uber jar `app/target/workshop-cli.jar` (the application with all its runtime dependencies). Run it with:
+
+```
+java -jar app/target/workshop-cli.jar
+```
+
+It fills a workshop system with demo data and writes `instructors.json`, `students.json` and `teams.json` to the current folder.
+
+Run the course tester against the uber jar (on Linux / macOS use `:` instead of `;`):
+
+```
+java -cp "lib/workshop-tester-2.0.jar;app/target/workshop-cli.jar" patmal.workshops.main.Main
+```
+
 ## EX1 – Workshop Registration (Vanilla Java)
 
 An in-memory system that manages instructors, workshops, students and teams. It implements the given `model` and `logic` API interfaces in plain Java 25, with no Maven and no frameworks.

@@ -16,9 +16,26 @@
     <name>Workshop Registration System - app</name>
 
     <dependencies>
+        <!-- The implementation that Main instantiates -->
         <dependency>
             <groupId>patmal.workshops.student.impl</groupId>
             <artifactId>logic-impl</artifactId>
+        </dependency>
+
+        <!-- Main works through the API interfaces; logic has no pom, so model is declared too -->
+        <dependency>
+            <groupId>patmal.workshops</groupId>
+            <artifactId>logic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>patmal.workshops</groupId>
+            <artifactId>model</artifactId>
+        </dependency>
+
+        <!-- Main logs through the Log4j API -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
         </dependency>
 
         <!-- Log4j backend: nothing compiles against it, but it is packed into the uber jar -->
@@ -27,4 +44,43 @@
             <artifactId>log4j-core</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <!-- The uber jar is target/workshop-cli.jar -->
+        <finalName>workshop-cli</finalName>
+
+        <plugins>
+            <!-- Uber jar: the application with all its compile and runtime dependencies
+                 (test-scope libraries are left out). Version in the root pluginManagement. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <!-- workshop-cli.jar, not workshop-cli-jar-with-dependencies.jar -->
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <archive>
+                        <manifest>
+                            <mainClass>patmal.workshops.student.impl.app.Main</mainClass>
+                        </manifest>
+                        <manifestEntries>
+                            <!-- log4j-api holds Java 9+ class versions under META-INF/versions -->
+                            <Multi-Release>true</Multi-Release>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>uber-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
